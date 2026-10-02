@@ -37,3 +37,10 @@ The trade-off: the resolver does no locking. If two processes both ask for `repo
 - `createResolver({ exists, suffix?, maxAttempts? })` → `(path: string) => string`
 - `numericSuffix(attempt: number)` → `(base, ext) => string`
 - `timestampSuffix(attempt: number, clock?: () => number)` → `(base, ext) => string`
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
